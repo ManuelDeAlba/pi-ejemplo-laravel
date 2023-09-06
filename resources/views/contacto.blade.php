@@ -7,7 +7,13 @@
 </head>
 <body>
     <h1>Formulario de Contacto</h1>
-    <form class="form" action="">
+    
+    <form class="form" action="contacto" method="post">
+        @csrf <!-- Esto se usa con blade, genera un input oculto con un token para validar que la informacion es de un formulario legitimo -->
+        
+        <!-- Las dobles llaves sirven para insertar variables y automáticamente limpian las cadenas para posibles ataques -->
+        <h3>Tipo: {{ $tipo }}</h3>
+
         <div class="form__apartado">
             <label for="correo">Correo:</label>
             <input
@@ -15,6 +21,13 @@
                 name="correo"
                 type="email"
                 placeholder="example@gmail.com"
+                @if ($tipo == "alumno")
+                    value="@alumnos.udg.mx"
+                @elseif ($tipo == "empleado")
+                    value="@empleados.udg.mx"
+                @else
+                    value="@<?php echo $tipo; ?>.udg.mx"
+                @endif
                 required
             >
         </div>
@@ -27,19 +40,6 @@
                 cols="30"
                 rows="5"
             ></textarea>
-        </div>
-
-        <div class="form__apartado">
-            <label for="tipo">Tipo:</label>
-            <select
-                id="tipo"
-                name="tipo"
-                required
-            >
-                <option value="">Elige una opción</option>
-                <option value="alumno">Alumno</option>
-                <option value="empleado">Empleado</option>
-            </select>
         </div>
 
         <input class="form__submit" type="submit" value="Enviar">
