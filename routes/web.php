@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\SitioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,20 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome'); // resources/views/welcome
+    // return view('welcome'); // resources/views/welcome
+    return redirect('/contacto'); // Por ahora redirige a contacto para no ver la página de bienvenida
 });
 
-Route::get('/contacto/{tipo?}', function($tipo = null){
-    // Con with se usa la concatenación de métodos y se pasa un objeto con clave - valor para pasar variables
-    // return view('contacto')->with(['tipo' => $tipo]); 
+Route::get('/contacto/{tipo?}', [SitioController::class, 'formContacto']);
+Route::post('/contacto', [SitioController::class, 'contactoSave']);
 
-    // Con compact se pasa la variable a la vista
-    return view('contacto', compact("tipo")); // resources/views/contacto
-});
-
-Route::post('/contacto', function(Request $req){
-    // return "POST formulario contacto";
-    // dd($req); // Muestra toda la información de la petición
-    // dd($req->all()); // Muestra el body de la petición
-    dd($req->correo); // Muestra solo el campo seleccionado
-});
+// Route::resource('tareas', TareaController::class); // Utiliza los métodos del controlador cuando se usa la opción -r en php artisan make:model Tarea -mcr
